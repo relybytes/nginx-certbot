@@ -14,5 +14,8 @@ COPY ./manage_domains.sh .
 RUN chmod +x /etc/nginx/manage_domains.sh /etc/nginx/run_with_env.sh
 RUN sed -i 's/\r//' ./run_with_env.sh
 
+EXPOSE 80
+EXPOSE 443
+
 # Set the default command
 CMD ["ash","run_with_env.sh"]
