@@ -1,0 +1,20 @@
+version: "3.8"
+name: "nginx-certbot"
+services:
+  # Load balancer
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - volume_letsencrypt_folder:/etc/letsencrypt
+    environment:
+      - NGINX_DOMAINS=
+      - NGINX_DOMAINS_EMAIL_VALIDATION=
+    ports:
+      - 80:80
+      - 443:443
+
+volumes:
+  volume_letsencrypt_folder:

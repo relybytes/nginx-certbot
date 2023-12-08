@@ -1,77 +1,51 @@
-# Project
+# NGINX and Certbot Integration
 
-Here must be the summary of the description of this project. 
-This description must answer these questions:
-- What is?
-- Who uses this project?
-- Where it is used?
-- When is necessary?
-- Why is developed?
-- What are the main functionalities?
+This repository contains a setup that integrates NGINX with Certbot for automated management of SSL/TLS certificates. It's designed to simplify the process of creating and renewing certificates, ensuring secure connections for your domains.
 
-Note: each title can be extended with subtitles according to the complexity of the project
+## Overview
 
-# Summary
+The integration of NGINX and Certbot in this repository automates the creation and renewal of SSL/TLS certificates. This solution is ideal for those seeking a hassle-free way to handle HTTPS encryption for their web services.
 
-1. [Architecture](#architecture)
-2. [Repository](#repository)
-3. [Installation](#installation)
-4. [Build](#build)
-5. [Run](#run)
-6. [Deploy](#deploy)
-7. [Test](#test)
-8. [Documentation](#documentation)
-9. [Team](#team)
+## Features
 
-# Architecture
+- **Automatic Certificate Management**: Seamlessly handles the creation and renewal of SSL/TLS certificates for your domains.
+- **NGINX Integration**: Configured to work with NGINX, providing a robust web server solution with SSL support.
+- **Docker Compatibility**: Designed to be run in a Docker environment, ensuring easy deployment and scalability.
 
-This section should help the developer to understand how the project works physically
-In this section, it helps a lot to have an image or a graph (made for example using a mermaid) that helps to understand quickly the context and how it interacts with the real world
+## Usage
 
-# Repository
+To use this setup, you need to specify a couple of environment variables and ensure the persistence of the certificates.
 
-This section should explain how the repository is structured, also at the code level (classes/folders).
-Also any links to other repositories (submodules).
+### Environment Variables
 
-This is a basic structure:
-* **folder1** -> this folder contains ...
+Set the following environment variables:
 
-The folders obviously must be present if they are needed (if for example there are no scripts, the folder will not be present either)
+- `NGINX_DOMAINS`: A list of domains for which the certificates will be managed. Format: `domain1.com, domain2.com`.
+- `NGINX_DOMAINS_EMAIL_VALIDATION`: The email address used for certificate registration and urgent renewal notifications.
 
-# Installation
+### Persistence of Certificates
 
-The following information must be present:
-- physical requirements of the machine to carry out the project 
-- application requirements (dependencies) with the specific versions 
-- steps to install the development environment and be ready to program 
+To ensure that certificates persist across container restarts and rebuilds, mount a volume to `/etc/letsencrypt` in your Docker container:
 
-In addition, there must be information about the recommended IDE/Tools needed or recommended to use
+    ```yaml
+    volumes:
+      - volume_letsencrypt_folder:/etc/letsencrypt
+    ```
 
-# Build
+This volume stores all Certbot-generated certificates and configurations, safeguarding them from data loss.
 
-The commands and steps to perform the build of the package, to be released, must be present in this section
+## Installation
 
-# Run
+To use this you need only docker.
 
-The commands and steps to perform the run of the application (for developers)
+## Contributing
 
-# Deploy
+See the Relybytes Contributing indications.
 
-This section must have the information present in order to release.
-If a procedure already exists, indicate the document and how to retrieve it
+## License
 
-# Test
+This project is open source and available under the [MIT License](LICENSE).
 
-The section should include information about the test strategy used and how to perform it
+---
 
-# Documentation
-
-This section may contain information relating to:
-- attached documents (datasheets, images, etc.)
-- references to requirements
-- useful documentation
-
-# Team
-
-This section is optional. It is necessary if there are information needed to introduce a person to the project or if there is a training program
-
+For more information and detailed configuration instructions, refer to the official NGINX and Certbot documentation.
