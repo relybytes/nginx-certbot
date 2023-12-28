@@ -58,7 +58,7 @@ for domain in $NGINX_DOMAINS; do
         # Check if the folder for certificate generation exists
         if [ -d "$FOLDER_NGINX_CONF" ]; then
             echo "Creating certificate for $domain"
-            certbot certonly --webroot -w $FOLDER_NGINX_CONF -d $domain --non-interactive --agree-tos -m $NGINX_DOMAINS_EMAIL_VALIDATION --redirect
+            certbot certonly --webroot -w $FOLDER_NGINX_CONF -d $domain --non-interactive --agree-tos -m $NGINX_DOMAINS_EMAIL_VALIDATION --redirect --expand
         else
             echo "Webroot path $FOLDER_NGINX_CONF does not exist for $domain, skipping..."
         fi
