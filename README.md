@@ -27,16 +27,39 @@ Set the following environment variables:
 
 To ensure that certificates persist across container restarts and rebuilds, mount a volume to `/etc/letsencrypt` in your Docker container:
 
-    ```yaml
-    volumes:
-      - volume_letsencrypt_folder:/etc/letsencrypt
-    ```
+```yaml
+volumes:
+  - volume_letsencrypt_folder:/etc/letsencrypt
+```
 
 This volume stores all Certbot-generated certificates and configurations, safeguarding them from data loss.
 
 ## Installation
 
-To use this you need only docker.
+### Example of usage
+
+File docker-compose.yml
+
+```yaml
+
+  # Load balancer
+  nginx:
+    image: ghcr.io/relybytes/nginx-certbot:20231228.161437-796f5ee
+    restart: unless-stopped
+    volumes:
+      - volume_letsencrypt_folder:/etc/letsencrypt
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    environment:
+      - NGINX_DOMAINS=
+      - NGINX_DOMAINS_EMAIL_VALIDATION=
+    ports:
+      - 80:80
+      - 443:443
+
+volumes:
+  volume_letsencrypt_folder:
+
+```
 
 ## Contributing
 
