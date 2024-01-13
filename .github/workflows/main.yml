@@ -38,7 +38,9 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ghcr.io/relybytes/nginx-certbot:${{ steps.vars.outputs.tag_name }}
+          tags: |
+            ghcr.io/relybytes/nginx-certbot:${{ steps.vars.outputs.tag_name }}
+            ghcr.io/relybytes/nginx-certbot:latest
       - name: Build and push Docker image for Branches
         if: startsWith(github.ref, 'refs/heads/')
         uses: docker/build-push-action@v4
