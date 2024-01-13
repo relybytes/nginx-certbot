@@ -65,11 +65,30 @@ for domain in $NGINX_DOMAINS; do
     fi
 done
 
+
+
+# Loop through each domain, run Certbot, and add a cron job for renewal if it doesn't exist
+for domain in $NGINX_DOMAINS; do
+    echo "Checking certificate for $domain"
+    # (existing certificate check and creation logic)
+
+    # Define the cron job command
+    CRON_JOB="0 3 * * * certbot renew --non-interactive --agree-tos --cert-name $domain"
+
+    # Check if this cron job already exists
+    if ! (crontab -l | grep -Fq "$CRON_JOB"); then
+        # Add the cron job since it doesn't exist
+        (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+        echo "Cron job added for $domain"
+    else
+        echo "Cron job already exists for $domain"
+    fi
+done
+
 # Stop the temporary Nginx
 echo "Stopping temporary Nginx..."
 nginx -s stop
 
-rm TEMP_NGINX_CONF
-rm -rf FOLDER_NGINX_CONF
+rm -rf $FOLDER_NGINX_CONF
 
 echo "Certificate creation complete."

@@ -8,8 +8,10 @@ echo "Finished manage_domains.sh script."
 # Stop the currently running Nginx service
 echo "Checking if Nginx is running..."
 if [ -f /var/run/nginx.pid ]; then
-    echo "Stopping Nginx..."
-    nginx -s stop
+    echo "Forcefully stopping Nginx..."
+    nginx -s quit || kill -SIGTERM $(cat /var/run/nginx.pid) 2>/dev/null || kill -SIGKILL $(cat /var/run/nginx.pid) 2>/dev/null
+    echo "Wait 5 seconds..."
+    sleep 5
 else
     echo "Nginx is not running. Skipping stop command."
 fi
@@ -51,4 +53,5 @@ start_dir="/etc/nginx/conf.d"
 iterate_directory "$start_dir"
 
 # Start Nginx
+echo "Start Nginx again..."
 nginx -g "daemon off;"
